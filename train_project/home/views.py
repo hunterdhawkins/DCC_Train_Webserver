@@ -4,10 +4,11 @@ import time
 from django.shortcuts import render, HttpResponse
 from django.db.models.functions import Cast
 from django.db.models import IntegerField
+from home import utils
 
 
 def index(request):
-
+    utils.modbus_quick_check()
     return render(
         request,
         "home/index.html",
