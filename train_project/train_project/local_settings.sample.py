@@ -1,0 +1,3 @@
+PLC_IP = ""
+DJANGO_KEY = ""
+DJANGO_DEBUG = False
