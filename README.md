@@ -12,4 +12,5 @@ This project is a Django web server that uses an open source NRMA Digital Comman
 1. Pull repo
 2. Rename train_project/local_settings.sample.py to train_project/local_settings.py
 3. Fill out info in local_settings.py
-4. Run py manage.py migrate
+4. pip install -r requirements.txt
+5. Run py manage.py migrate
