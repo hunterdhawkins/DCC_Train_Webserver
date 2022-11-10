@@ -3,7 +3,7 @@
 
 {% block page_styles %}
 <style type="text/css">
-#animate { position: relative; border; 1px solid green; background: yellow; width: 100px; height: 100px;}
+#animate { position: relative; border; 1px solid green; background: yellow; width: 100px; height: 20px;}
 </style>
 {% endblock %}
 
@@ -24,18 +24,34 @@
 
 $(document).ready(function(e) {
     // var width = "+=" + $(document).width();
-	var width = 400
-	var height = 600
-	// Move left
+	var width = 350
+	var right_width = -350
+	var height = 100
+
+	// Move right
     $("#animate").animate({
     	left: width
   	}, 5000, function() {
   	});
 
+    // Move up
     $("#animate").animate({
-    	bottom: width
+    	bottom: height
   	}, 5000, function() {
   	});
+
+    // Move left
+  	$("#animate").animate({
+    	left: right_width
+  	}, 5000, function() {
+  	});
+
+  	// move down
+  	$("#animate").animate({
+    	top: height
+  	}, 5000, function() {
+  	});
+
 
 
 });
