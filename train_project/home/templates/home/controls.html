@@ -1,11 +1,26 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>Train Controls</h1>
-<div id="train_values">
-	Train Speed: {{speed}}
+<h1>Train Manual Controls</h1>
+
+<form method="post" autocomplete="on">
+	{% csrf_token %}
+ 	<label for="speed">Set Train Speed (between 0 and 100):</label>
+  	<input type="number" id="speed" name="speed" min="0" max="100">
+  	<br>
+  	<label for='toggle_headlight'> Toggle Headlight
+		<input class="form-check-input" type="checkbox" name="toggle_headlight" id="toggle_headlight">
+	</label>
 	<br>
-	Train Headlight: {{headlight}}
+  	<button type="submit" class="btn btn-primary btn-lg">Change Train Settings</button>
+</form>
+
+<hr>
+
+<div id="train_values">
+	<h3>Train Speed: {{speed}}</h3>
+	<br>
+	<h3>Train Headlight: {{headlight}}</h3>
 </div>
 
 {% endblock %}
