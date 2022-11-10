@@ -1,8 +1,8 @@
 from django.urls import path
-from home import views
+from home import html_views, ajax_views
 
 
 urlpatterns = [
-    path("", views.index, name='home-index'),
+    path("", html_views.feedback, name='home-feedback'),
     # path("steps/", views.required_steps, name="home-required-steps"),
 ]
