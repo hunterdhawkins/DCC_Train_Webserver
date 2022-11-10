@@ -7,6 +7,11 @@ from pymodbus.client.sync import ModbusTcpClient
     https://blog.jonasneubert.com/2019/11/02/using-pymodbus-to-communicate-with-a-plc/
 '''
 
+'''
+    Template Sources:
+https://stackoverflow.com/questions/12712592/how-to-make-a-small-image-move-from-one-side-of-the-screen-to-the-other-with-js
+'''
+
 train_file_path = '/home/hunterhawkins/Desktop/School/Train_Project/django_web_server/DCC_Train_Webserver/train_project/data/train_status'
 
 
