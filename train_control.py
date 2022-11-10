@@ -1,5 +1,6 @@
-from dccpi import *
 import json
+import time
+# from dccpi import *
 
 
 class TrainStateMachine():
@@ -13,14 +14,19 @@ class TrainStateMachine():
         self.user_input = ''
         self.states = {
             "move_to_ready_state": self.move_to_ready_state,
-            "end_of_transport": self.end_of_song
+            "end_of_transport": self.end_of_transport,
             }
+        self.state = "move_to_ready_state"
+        print("Moving to the ready state")
+        self.run_state()
 
     def run_state(self):
         while self.state != "exit":
             self.states[self.state]()
 
     def move_to_ready_state(self):
+        read_data_from_json_file('/home/hunterhawkins/Desktop/School/Train_Project/django_web_server/DCC_Train_Webserver/train_project/data/train_status')
+        time.sleep(5)
         if self.user_input == "quit":
             self.state = "exit"
 
@@ -32,6 +38,13 @@ class TrainStateMachine():
 def write_data_to_file(feedback_dict):
     with open('result.json', 'w') as fp:
         json.dump(feedback_dict, fp)
+
+
+def read_data_from_json_file(file_path):
+    file_path = file_path + '.json'
+    with open(file_path, 'r') as f:
+        data = json.load(f)
+    print(data)
 
 
 def send_feedback_to_webserver():
