@@ -18,11 +18,15 @@ def feedback(request):
 
 
 def manual_controls(request):
+    feedback_dict = utils.read_train_status()
+    train_speed = feedback_dict['speed']
+    train_headlight = feedback_dict['headlight']
     return render(
         request,
         "home/controls.html",
         {
-
+            'speed': train_speed,
+            'headlight': train_headlight,
         },
 
     )

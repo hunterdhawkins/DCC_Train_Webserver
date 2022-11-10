@@ -2,10 +2,22 @@
 
 {% block content %}
 <h1>Train Controls</h1>
+<div id="train_values">
+	Train Speed: {{speed}}
+	<br>
+	Train Headlight: {{headlight}}
+</div>
 
 {% endblock %}
 
 {% block page_scripts %}
-<script>
+<script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js'></script>
+<script type='text/javascript'>
+	$( document ).ready(function() {
+    	setInterval(function(){
+	        // Fetch the values form the backend
+	        $("#train_values").load(" #train_values");
+        }, 2000);
+    });
 </script>
 {% endblock %}
