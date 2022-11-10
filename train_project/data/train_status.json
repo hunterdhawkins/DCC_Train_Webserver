@@ -1,4 +1,4 @@
 {
-    "name": "Bob", 
-    "languages": ["English", "French"]
+    "speed": 0, 
+    "headlight": false
 }
