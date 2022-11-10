@@ -3,6 +3,12 @@ import json
 
 
 class TrainStateMachine():
+    # This is the state machine for the train
+    # I am still designing the states but we currently have
+    # The run state = used to run the train until we want to exit
+    # The move to ready state = which currently just lets the user quit
+    # The end of transportation state which returns us to the ready state
+
     def __init__(self):
         self.user_input = ''
         self.states = {

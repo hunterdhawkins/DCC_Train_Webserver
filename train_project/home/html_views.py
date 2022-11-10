@@ -15,3 +15,14 @@ def feedback(request):
         {
         },
     )
+
+
+def manual_controls(request):
+    return render(
+        request,
+        "home/controls.html",
+        {
+
+        },
+
+    )
