@@ -6,14 +6,14 @@
 <form method="post" autocomplete="on">
 	{% csrf_token %}
  	<label for="speed">Set Train Speed (between 0 and 100):</label>
-  	<input type="number" id="speed" name="speed" min="0" max="100">
+  	<input type="number" id="speed" name="speed" min="0" max="100" style="margin-bottom: 10px;">
   	<br>
   	<label for='toggle_headlight'> Toggle Headlight
-		<input class="form-check-input" type="checkbox" name="toggle_headlight" id="toggle_headlight">
+		<input class="form-check-input" type="checkbox" name="toggle_headlight" id="toggle_headlight" style="margin-bottom: 10px;">
 	</label>
 	<br>
 	<label for="direction">Choose a Direction</label>
-	<select name="direction" id="direction">
+	<select name="direction" id="direction" style="margin-bottom: 10px;">
 			<option disabled selected value> -- select an option -- </option>
 			  <option value="1">Forward</option>
 			  <option value="-1">Reverse</option>
