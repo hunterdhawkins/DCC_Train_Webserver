@@ -14,6 +14,10 @@ https://stackoverflow.com/questions/12712592/how-to-make-a-small-image-move-from
 
 train_file_path = '/home/hunterhawkins/Desktop/School/Train_Project/django_web_server/DCC_Train_Webserver/train_project/data/train_status'
 
+# interface document w/ garrett
+# table purchase
+# track purchase
+
 
 def modbus_quick_check():
     try:
