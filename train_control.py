@@ -16,6 +16,7 @@ class TrainStateMachine():
 
         self.train_speed = 0
         self.train_headlight = False
+        self.train_direction = None
 
         self.states = {
             "move_to_ready_state": self.move_to_ready_state,
@@ -32,7 +33,8 @@ class TrainStateMachine():
             data = json.load(f)
         self.train_speed = data["speed"]
         self.train_headlight = data["headlight"]
-        print(self.train_speed, self.train_headlight)
+        self.train_direction = data["direction"]
+        print("Speed " + self.train_speed, " Headlight " + self.train_headlight, " Direction " + self.train_direction)
 
     def run_state(self):
         while self.state != "exit":

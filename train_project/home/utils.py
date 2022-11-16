@@ -36,17 +36,20 @@ def read_train_status():
         data = json.load(f)
     train_speed = data["speed"]
     train_headlight = data["headlight"]
+    train_direction = data["direction"]
     return {
             'speed': train_speed,
             'headlight': train_headlight,
+            'direction': train_direction,
     }
 
 
-def write_data_to_train(speed, headlight):
+def write_data_to_train(speed, headlight, direction):
     file_path = train_file_path + '.json'
     new_train_values = {
                             'speed': speed,
                             'headlight': headlight,
+                            'direction': direction,
     }
     with open(file_path, 'w') as fp:
         json.dump(new_train_values, fp)
