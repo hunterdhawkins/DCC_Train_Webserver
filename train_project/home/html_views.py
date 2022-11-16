@@ -30,8 +30,17 @@ def manual_controls(request):
         train_speed_input = request.POST.get("speed")
         train_headlight_input = request.POST.get("toggle_headlight")
         train_direction_input = request.POST.get("direction")
+
+        print("train speed" + train_speed_input)
+        # Default to existing headlight
         if train_headlight_input is None:
-            train_headlight_input = False
+            train_headlight_input = train_headlight
+        # Default to the existing speed
+        if train_speed_input is None:
+            train_speed_input = train_speed
+        if train_direction_input is None:
+            train_direction_input = train_direction
+
         utils.write_data_to_train(train_speed_input, train_headlight_input, train_direction_input)
 
     return render(

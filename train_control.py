@@ -34,7 +34,7 @@ class TrainStateMachine():
         self.train_speed = data["speed"]
         self.train_headlight = data["headlight"]
         self.train_direction = data["direction"]
-        print("Speed " + self.train_speed, " Headlight " + self.train_headlight, " Direction " + self.train_direction)
+        print("Speed " + self.train_speed, " Headlight " + str(self.train_headlight), " Direction " + str(self.train_direction))
 
     def run_state(self):
         while self.state != "exit":

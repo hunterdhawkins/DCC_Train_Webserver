@@ -5,6 +5,7 @@ from pymodbus.client.sync import ModbusTcpClient
 '''
     PyModBus Sources:
     https://blog.jonasneubert.com/2019/11/02/using-pymodbus-to-communicate-with-a-plc/
+    Functions( https://pymodbus.readthedocs.io/en/latest/source/library/pymodbus.client.html)
 '''
 
 '''
@@ -17,17 +18,6 @@ train_file_path = '/home/hunterhawkins/Desktop/School/Train_Project/django_web_s
 # interface document w/ garrett
 # table purchase
 # track purchase
-
-
-def modbus_quick_check():
-    try:
-        client = ModbusTcpClient('127.0.0.1')
-        client.write_coil(1, True)
-        result = client.read_coils(1,1)
-        print(result.bits[0])
-        client.close()
-    except:
-        print("An exception occurred") 
 
 
 def read_train_status():
