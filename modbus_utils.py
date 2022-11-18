@@ -7,6 +7,12 @@ from pymodbus.client.sync import ModbusTcpClient
 '''
 
 
+def read_modbus_holding_register(client):
+    result = client.read_holding_registers(401)
+    print(result)
+    return result
+
+
 def read_single_modbus_coil(address):
     result = client.read_coils(1, 1)
     print(result.bits[0])
@@ -23,11 +29,19 @@ def modbus_quick_check():
 
         # Param 1: address – Start address to read from
         # Param 2: count – (optional) Number of coils to read
-        result = client.read_coils(400, 100)
-        print(result.bits)
-        print(result.bits[0])
+        # result = client.read_coils(400, 100)
+        # print(result.bits)
+        # print(result.bits[0])
 
+        result1 = client.read_holding_registers(401, 1)
+        print(result1.registers[0])
+
+        result2 = client.read_holding_registers(402, 1)
+        print(result2.registers[0])
+
+        #read_holding_registers(client)
         client.close()
+
     except:
         print("An exception occurred") 
 

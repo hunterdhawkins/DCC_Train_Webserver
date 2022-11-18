@@ -2,11 +2,6 @@ import pymodbus
 import json
 from pymodbus.client.sync import ModbusTcpClient
 
-'''
-    PyModBus Sources:
-    https://blog.jonasneubert.com/2019/11/02/using-pymodbus-to-communicate-with-a-plc/
-    Functions( https://pymodbus.readthedocs.io/en/latest/source/library/pymodbus.client.html)
-'''
 
 '''
     Template Sources:
