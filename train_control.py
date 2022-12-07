@@ -16,11 +16,15 @@ class TrainStateMachine():
 
     def __init__(self):
         self.user_input = ''
-        self.train_file_path = '/home/hunterhawkins/Desktop/School/Train_Project/django_web_server/DCC_Train_Webserver/train_project/data/train_status'
-
+        self.train_status_file_path = '/home/hunterhawkins/Desktop/School/Train_Project/django_web_server/DCC_Train_Webserver/train_project/data/train_status'
+        self.train_order_file_path = '/home/hunterhawkins/Desktop/School/Train_Project/django_web_server/DCC_Train_Webserver/train_project/data/train_order'
         self.train_speed = 0
         self.train_headlight = False
         self.train_direction = None
+        self.num_of_red = 0
+        self.num_of_white = 0
+        self.num_of_blue = 0
+        self.num_of_faulty = 0
 
         self.states = {
             "move_to_ready_state": self.move_to_ready_state,
@@ -35,13 +39,19 @@ class TrainStateMachine():
     # These are helper functions of the state machine
     # ##################################################
     def read_train_status(self):
-        file_path = self.train_file_path + '.json'
+        file_path = self.train_status_file_path + '.json'
         with open(file_path, 'r') as f:
             data = json.load(f)
         self.train_speed = data["speed"]
         self.train_headlight = data["headlight"]
         self.train_direction = data["direction"]
         print("Speed " + self.train_speed, " Headlight " + str(self.train_headlight), " Direction " + str(self.train_direction))
+
+    def check_for_fake_order(self):
+        file_path = self.train_order_file_path + '.json'
+        with open(file_path, 'r') as f:
+            data = json.load(f)
+        print(data)
 
     # ##########################################
     # These are the states of the statemachine
@@ -52,7 +62,7 @@ class TrainStateMachine():
 
     def move_to_ready_state(self):
         self.read_train_status()
-
+        self.check_for_fake_order()
         time.sleep(5)
         if self.user_input == "quit":
             self.state = "exit"
@@ -62,6 +72,9 @@ class TrainStateMachine():
         self.state = "move_to_ready_state"
 
 
+# ###################################
+# Train functions (TODO)
+########################################
 def write_data_to_file(feedback_dict):
     with open('result.json', 'w') as fp:
         json.dump(feedback_dict, fp)
