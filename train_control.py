@@ -21,13 +21,16 @@ class TrainStateMachine():
         self.train_speed = 0
         self.train_headlight = False
         self.train_direction = None
-        self.num_of_red = 0
-        self.num_of_white = 0
-        self.num_of_blue = 0
-        self.num_of_faulty = 0
+        self.order = {
+            'num_of_red': 0,
+            'num_of_white': 0,
+            'num_of_blue': 0,
+            'num_of_faulty': 0,
+        }
 
         self.states = {
             "move_to_ready_state": self.move_to_ready_state,
+            "drive_to_load_area": self.drive_to_load_area,
             "end_of_transport": self.end_of_transport,
             }
 
@@ -45,13 +48,17 @@ class TrainStateMachine():
         self.train_speed = data["speed"]
         self.train_headlight = data["headlight"]
         self.train_direction = data["direction"]
-        print("Speed " + self.train_speed, " Headlight " + str(self.train_headlight), " Direction " + str(self.train_direction))
+        # print("Speed " + self.train_speed, " Headlight " + str(self.train_headlight), " Direction " + str(self.train_direction))
 
     def check_for_fake_order(self):
         file_path = self.train_order_file_path + '.json'
         with open(file_path, 'r') as f:
             data = json.load(f)
-        print(data)
+        self.order['num_of_red'] = data["num_of_red"]
+        self.order['num_of_white'] = data["num_of_white"]
+        self.order['num_of_blue'] = data["num_of_blue"]
+        self.order['num_of_faulty'] = data["num_of_faulty"]
+        print(self.order)
 
     # ##########################################
     # These are the states of the statemachine
@@ -61,11 +68,16 @@ class TrainStateMachine():
             self.states[self.state]()
 
     def move_to_ready_state(self):
+        # This state assumes the train returns to the stating point every time
         self.read_train_status()
         self.check_for_fake_order()
         time.sleep(5)
-        if self.user_input == "quit":
-            self.state = "exit"
+        if any(int(value) != 0 for value in self.order.values()):
+            self.state = 'drive_to_load_area'
+
+    def drive_to_load_area(self):
+        print("Here")
+        time.sleep(5)
 
     def end_of_transport(self):
         print("Done transporting goods")
