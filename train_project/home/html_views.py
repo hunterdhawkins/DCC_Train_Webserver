@@ -18,10 +18,10 @@ def feedback(request):
 
 
 def fake_factory(request):
-    num_of_red = None
-    num_of_white = None
-    num_of_blue = None
-    num_of_faulty = None
+    num_of_red = 0
+    num_of_white = 0
+    num_of_blue = 0
+    num_of_faulty = 0
     if request.method == 'POST':
         num_of_red = request.POST.get("num_of_red")
         num_of_white = request.POST.get("num_of_white")

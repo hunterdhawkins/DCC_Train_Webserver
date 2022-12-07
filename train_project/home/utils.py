@@ -38,3 +38,7 @@ def write_data_to_train(speed, headlight, direction):
     }
     with open(file_path, 'w') as fp:
         json.dump(new_train_values, fp)
+
+
+def write_fake_order(num_of_red, num_of_white, num_of_blue, num_of_faulty):
+    pass
