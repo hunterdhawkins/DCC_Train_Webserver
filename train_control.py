@@ -1,5 +1,6 @@
 import json
 import time
+import modbus_utils
 # from dccpi import *
 
 # False = order from website
@@ -108,6 +109,7 @@ class TrainStateMachine():
         time.sleep(5)
         # If we get an order from the factory advance the state
         if any(int(value) != 0 for value in self.order.values()):
+            # Write order details to PLC
             print("Recieved order, moving to loading area")
             self.state = 'drive_to_load_area_state'
 
@@ -124,8 +126,10 @@ class TrainStateMachine():
         self.state = 'load_train_state'
 
     def load_train_state(self):
+        # Write to PLC that we are in position
         print("Loading the train")
         time.sleep(10)
+        # Polling PLC until loading of the train is done
         print("Done loading the train")
         self.state = 'drive_to_unload_area_state'
 
@@ -142,13 +146,16 @@ class TrainStateMachine():
         self.state = 'unload_train_state'
 
     def unload_train_state(self):
+        # Write to PLC that the train is ready to be unloaded
         print("Unloading the train")
         time.sleep(20)
         print("Done unloading, resetting for next order")
         self.state = 'end_of_transport_state'
 
     def end_of_transport_state(self):
+        # Clear the order
         self.clear_order()
+        # Move the train to its resting position
         self.state = "move_to_ready_state"
 
 
