@@ -8,7 +8,7 @@ from home import utils
 
 
 def feedback(request):
-    # utils.modbus_quick_check()
+
     return render(
         request,
         "home/feedback.html",
@@ -18,6 +18,20 @@ def feedback(request):
 
 
 def fake_factory(request):
+    num_of_red = None
+    num_of_white = None
+    num_of_blue = None
+    num_of_faulty = None
+    if request.method == 'POST':
+        num_of_red = request.POST.get("num_of_red")
+        num_of_white = request.POST.get("num_of_white")
+        num_of_blue = request.POST.get("num_of_blue")
+        num_of_faulty = request.POST.get("num_of_faulty")
+
+    print("*******************")
+    print(num_of_red, num_of_white, num_of_blue, num_of_faulty)
+    print("*******************")
+
     return render(
         request,
         "home/fake_factory.html",
