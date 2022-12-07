@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block page_styles %}
+{% endblock %}
+
+{% block content %}
+<center>
+	<h1>Page to Simulate Factory Orders</h1>
+	</center>
+	<hr>
+	{% csrf_token %}
+	<label for="tag" style="font-size: x-large;">Choose the Number of Blue</label>
+	<select name="num_of_blue" id="num_of_blue" class="form-select w-25 p-3" style="display: inline; margin-left: 30px;">
+		<option disabled selected value> -- select a quantity option -- </option>
+		<option>0</option>
+		<option>1</option>
+		<option>2</option>
+		<option>3</option>
+	</select>
+	<br>
+	<label for="tag" style="font-size: x-large;">Choose the Number of Red</label>
+	<select name="num_of_red" id="num_of_red" class="form-select w-25 p-3" style="display: inline; margin-left: 35px;">
+		<option disabled selected value> -- select a quantity option -- </option>
+		<option>0</option>
+		<option>1</option>
+		<option>2</option>
+		<option>3</option>
+	</select>
+	<br>
+	<label for="tag" style="font-size: x-large;">Choose the Number of White</label>
+	<select name="num_of_red" id="num_of_red" class="form-select w-25 p-3" style="display: inline; margin-left: 15px;">
+		<option disabled selected value> -- select a quantity option -- </option>
+		<option>0</option>
+		<option>1</option>
+		<option>2</option>
+		<option>3</option>
+	</select>
+	<br>
+	<label for="tag" style="font-size: x-large;">Choose the Number of Faulty</label>
+	<select name="num_of_red" id="num_of_red" class="form-select w-25 p-3" style="display: inline; margin-left: 15px;">
+		<option disabled selected value> -- select a quantity option -- </option>
+		<option>0</option>
+		<option>1</option>
+		<option>2</option>
+		<option>3</option>
+	</select>
+	<br>
+	<button type="submit" class="btn btn-primary btn-lg" style="margin-top: 15px;">Submit Fake Order</button>
+
+{% endblock %}
+
+{% block page_scripts %}
+<script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js'></script>
+<script>
+   
+
+</script>
+{% endblock %}

@@ -8,10 +8,19 @@ from home import utils
 
 
 def feedback(request):
-    utils.modbus_quick_check()
+    # utils.modbus_quick_check()
     return render(
         request,
         "home/feedback.html",
+        {
+        },
+    )
+
+
+def fake_factory(request):
+    return render(
+        request,
+        "home/fake_factory.html",
         {
         },
     )
