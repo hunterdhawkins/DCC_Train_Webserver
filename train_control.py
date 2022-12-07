@@ -7,6 +7,8 @@ import modbus_utils
 # True = order from factory (TODO)
 FACTORY_MODE = False
 
+EXTRA_VGR_COMMS = False
+
 
 class TrainStateMachine():
     # This is the state machine for the train.
@@ -126,12 +128,19 @@ class TrainStateMachine():
         self.state = 'load_train_state'
 
     def load_train_state(self):
-        # Write to PLC that we are in position
+        # Write to the Factory PLC that we are in position
+        # modbus_utils.write_modbus_coil(register, true_or_false)
         print("Loading the train")
-        time.sleep(10)
         # Polling PLC until loading of the train is done
-        print("Done loading the train")
-        self.state = 'drive_to_unload_area_state'
+        if FACTORY_MODE is False:
+            # Sleep 10 seconds to let user load materials
+            time.sleep(10)
+            print("Done loading the train")
+            self.state = 'drive_to_unload_area_state'
+        elif FACTORY_MODE is True:
+            print("No factory yet")
+            self.state = 'drive_to_unload_area_state'
+            # modbus_utils.read_single_modbus_coil(register)
 
     def drive_to_unload_area_state(self):
         # This state is used to drive in front of the factory
@@ -146,7 +155,8 @@ class TrainStateMachine():
         self.state = 'unload_train_state'
 
     def unload_train_state(self):
-        # Write to PLC that the train is ready to be unloaded
+        # Write to VGR PLC that the train is ready to be unloaded
+        modbus_utils.write_modbus_coil(410, True)
         print("Unloading the train")
         time.sleep(20)
         print("Done unloading, resetting for next order")
@@ -155,6 +165,7 @@ class TrainStateMachine():
     def end_of_transport_state(self):
         # Clear the order
         self.clear_order()
+        modbus_utils.client.close()
         # Move the train to its resting position
         self.state = "move_to_ready_state"
 
@@ -171,43 +182,6 @@ def send_feedback_to_webserver():
     pload = {'test': 123}
     r = requests.post('http://localhost:8000/ajax/home', data=pload)
     return r.status_code
-
-
-def change_loco_speed(loco, speed):
-    loco.speed = speed
-
-
-def increment_loco_speed(loco):
-    loco.faster()
-
-
-def decrement_loco_speed(loco):
-    loco.slower()
-
-
-def change_loco_direction(loco):
-    loco.reverse()
-
-
-def start_controller(controller):
-    controller.start()
-
-
-def stop_controller(controller):
-    controller.stop()
-
-
-def create_loco(name, address):
-    # Create a loco, args: Name, DCC Address (see DCCLocomotive class)
-    loco = DCCLocomotive(name, address)
-    return loco
-
-
-def toggle_loco_headlight(loco):
-    if loco.fl is True:
-        loco.fl = False
-    else:
-        loco.fl = True
 
 
 def main():
