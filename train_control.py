@@ -8,11 +8,11 @@ FACTORY_MODE = False
 
 
 class TrainStateMachine():
-    # This is the state machine for the train
-    # I am still designing the states but we currently have
-    # The run state = used to run the train until we want to exit
-    # The move to ready state = which currently just lets the user quit
-    # The end of transportation state which returns us to the ready state
+    # This is the state machine for the train.
+    # Here are the current states (still being developed):
+    # Initialize train state = create the virtual controller and register the train
+    # Move to ready state = Poll for an order from the webserver (future = factory)
+    # Drive to load area state = Used to drive to the front of the factory to be loaded
 
     def __init__(self):
         self.user_input = ''
@@ -34,7 +34,8 @@ class TrainStateMachine():
             "move_to_ready_state": self.move_to_ready_state,
             "drive_to_load_area_state": self.drive_to_load_area_state,
             "load_train_state": self.load_train_state,
-            "unload_state": self.unload_state,
+            "drive_to_unload_area_state": self.drive_to_unload_area_state,
+            "unload_train_state": self.unload_train_state,
             "end_of_transport_state": self.end_of_transport_state,
             }
 
@@ -64,6 +65,17 @@ class TrainStateMachine():
         self.order['num_of_faulty'] = data["num_of_faulty"]
         print(self.order)
 
+    def clear_order(self):
+        file_path = self.train_order_file_path + '.json'
+        fake_order_values = {
+            'num_of_red': 0,
+            'num_of_white': 0,
+            'num_of_blue': 0,
+            'num_of_faulty': 0,
+        }
+        with open(file_path, 'w') as fp:
+            json.dump(fake_order_values, fp)
+
     # ##########################################
     # These are the states of the statemachine
     # ###############################################
@@ -73,6 +85,7 @@ class TrainStateMachine():
 
     def initialize_train_state(self):
         # NOTE: This should only be called once ***
+        print("Initializing the train")
         '''
         # Create the DCC controller with the RPi encoder
         e = DCCRPiEncoder()
@@ -90,11 +103,12 @@ class TrainStateMachine():
 
     def move_to_ready_state(self):
         # This state assumes the train returns to the stating point every time
-        self.read_train_status()
+        # self.read_train_status()
         self.check_for_fake_order()
         time.sleep(5)
         # If we get an order from the factory advance the state
         if any(int(value) != 0 for value in self.order.values()):
+            print("Recieved order, moving to loading area")
             self.state = 'drive_to_load_area_state'
 
     def drive_to_load_area_state(self):
@@ -106,18 +120,35 @@ class TrainStateMachine():
         # print(l1)                      # Print loco information
         time.sleep(10)
         # controller.stop()              # IMPORTANT! Stop controller always. Emergency-stops
-        self.state = 'unload_state'
+        print("Made it to the loading area")
+        self.state = 'load_train_state'
 
     def load_train_state(self):
-        pass
+        print("Loading the train")
+        time.sleep(10)
+        print("Done loading the train")
+        self.state = 'drive_to_unload_area_state'
+
+    def drive_to_unload_area_state(self):
+        # This state is used to drive in front of the factory
+        print("Driving to unloading area")
+        # controller.start()             # Start the controller. Removes brake signal
+
+        # l1.speed = 10                  # Change speed
+        # print(l1)                      # Print loco information
+        time.sleep(10)
+        # controller.stop()              # IMPORTANT! Stop controller always. Emergency-stops
+        print("Made it to the unloading area")
+        self.state = 'unload_train_state'
 
     def unload_train_state(self):
         print("Unloading the train")
         time.sleep(20)
+        print("Done unloading, resetting for next order")
         self.state = 'end_of_transport_state'
 
     def end_of_transport_state(self):
-        print("Done transporting goods")
+        self.clear_order()
         self.state = "move_to_ready_state"
 
 
