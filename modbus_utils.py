@@ -7,6 +7,7 @@ from pymodbus.client.sync import ModbusTcpClient
         https://blog.jonasneubert.com/2019/11/02/using-pymodbus-to-communicate-with-a-plc/
         Functions( https://pymodbus.readthedocs.io/en/latest/source/library/pymodbus.client.html)
 '''
+client = ModbusTcpClient('129.101.98.229')
 
 
 def read_modbus_holding_register(client, register):
@@ -27,11 +28,3 @@ def read_single_modbus_coil(client, register):
 def write_modbus_coil(client, register, true_or_false):
     client.write_coil(register, true_or_false)
     return result
-
-
-def main():
-    client = ModbusTcpClient('129.101.98.229')
-
-
-if __name__ == '__main__':
-    main()
