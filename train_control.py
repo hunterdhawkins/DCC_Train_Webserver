@@ -2,6 +2,10 @@ import json
 import time
 # from dccpi import *
 
+# False = order from website
+# True = order from factory (TODO)
+FACTORY_MODE = False
+
 
 class TrainStateMachine():
     # This is the state machine for the train
@@ -27,7 +31,10 @@ class TrainStateMachine():
         print("Moving to the ready state")
         self.run_state()
 
-    def read_data_from_json_file(self):
+    # ##############################################
+    # These are helper functions of the state machine
+    # ##################################################
+    def read_train_status(self):
         file_path = self.train_file_path + '.json'
         with open(file_path, 'r') as f:
             data = json.load(f)
@@ -36,12 +43,16 @@ class TrainStateMachine():
         self.train_direction = data["direction"]
         print("Speed " + self.train_speed, " Headlight " + str(self.train_headlight), " Direction " + str(self.train_direction))
 
+    # ##########################################
+    # These are the states of the statemachine
+    # ###############################################
     def run_state(self):
         while self.state != "exit":
             self.states[self.state]()
 
     def move_to_ready_state(self):
-        self.read_data_from_json_file()
+        self.read_train_status()
+
         time.sleep(5)
         if self.user_input == "quit":
             self.state = "exit"

@@ -9,7 +9,7 @@ https://stackoverflow.com/questions/12712592/how-to-make-a-small-image-move-from
 '''
 
 train_file_path = '/home/hunterhawkins/Desktop/School/Train_Project/django_web_server/DCC_Train_Webserver/train_project/data/train_status'
-
+fake_order_file_path = '/home/hunterhawkins/Desktop/School/Train_Project/django_web_server/DCC_Train_Webserver/train_project/data/train_order'
 # interface document w/ garrett
 # table purchase
 # track purchase
@@ -41,4 +41,12 @@ def write_data_to_train(speed, headlight, direction):
 
 
 def write_fake_order(num_of_red, num_of_white, num_of_blue, num_of_faulty):
-    pass
+    file_path = fake_order_file_path + '.json'
+    fake_order_values = {
+                            'num_of_red': num_of_red,
+                            'num_of_white': num_of_white,
+                            'num_of_blue': num_of_blue,
+                            'num_of_faulty': num_of_faulty,
+    }
+    with open(file_path, 'w') as fp:
+        json.dump(fake_order_values, fp)

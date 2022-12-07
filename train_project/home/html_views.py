@@ -32,6 +32,8 @@ def fake_factory(request):
     print(num_of_red, num_of_white, num_of_blue, num_of_faulty)
     print("*******************")
 
+    utils.write_fake_order(num_of_red, num_of_white, num_of_blue, num_of_faulty)
+
     return render(
         request,
         "home/fake_factory.html",
