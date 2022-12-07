@@ -21,6 +21,7 @@ class TrainStateMachine():
         self.train_speed = 0
         self.train_headlight = False
         self.train_direction = None
+
         self.order = {
             'num_of_red': 0,
             'num_of_white': 0,
@@ -29,13 +30,16 @@ class TrainStateMachine():
         }
 
         self.states = {
+            "initialize_train_state": self.initialize_train_state,
             "move_to_ready_state": self.move_to_ready_state,
-            "drive_to_load_area": self.drive_to_load_area,
-            "end_of_transport": self.end_of_transport,
+            "drive_to_load_area_state": self.drive_to_load_area_state,
+            "load_train_state": self.load_train_state,
+            "unload_state": self.unload_state,
+            "end_of_transport_state": self.end_of_transport_state,
             }
 
-        self.state = "move_to_ready_state"
-        print("Moving to the ready state")
+        self.state = "initialize_train_state"
+        print("Moving to the initialize train state")
         self.run_state()
 
     # ##############################################
@@ -67,19 +71,52 @@ class TrainStateMachine():
         while self.state != "exit":
             self.states[self.state]()
 
+    def initialize_train_state(self):
+        # NOTE: This should only be called once ***
+        '''
+        # Create the DCC controller with the RPi encoder
+        e = DCCRPiEncoder()
+        controller = DCCController(e)
+
+        # Create locos, args: Name, DCC Address (see DCCLocomotive class)
+        l1 = DCCLocomotive("DCC6", 6)
+
+        # Register locos on the controller
+        controller.register(l1)
+        '''
+        print("Done initalizing the train")
+        print("Moving to ready state")
+        self.state = "move_to_ready_state"
+
     def move_to_ready_state(self):
         # This state assumes the train returns to the stating point every time
         self.read_train_status()
         self.check_for_fake_order()
         time.sleep(5)
+        # If we get an order from the factory advance the state
         if any(int(value) != 0 for value in self.order.values()):
-            self.state = 'drive_to_load_area'
+            self.state = 'drive_to_load_area_state'
 
-    def drive_to_load_area(self):
-        print("Here")
-        time.sleep(5)
+    def drive_to_load_area_state(self):
+        # This state is used to drive in front of the factory
+        print("Driving to loading area")
+        # controller.start()             # Start the controller. Removes brake signal
 
-    def end_of_transport(self):
+        # l1.speed = 10                  # Change speed
+        # print(l1)                      # Print loco information
+        time.sleep(10)
+        # controller.stop()              # IMPORTANT! Stop controller always. Emergency-stops
+        self.state = 'unload_state'
+
+    def load_train_state(self):
+        pass
+
+    def unload_train_state(self):
+        print("Unloading the train")
+        time.sleep(20)
+        self.state = 'end_of_transport_state'
+
+    def end_of_transport_state(self):
         print("Done transporting goods")
         self.state = "move_to_ready_state"
 
