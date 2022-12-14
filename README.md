@@ -7,9 +7,7 @@ This project is a Django web server that uses an open source NRMA Digital Comman
 
 
 ## Stuff to do
-1. Attempt to read and write to modbus registers with pymodbus
-2. Figure out what location to register the train to (intuition leads me to 3)
-3. Finish creating machine vision dataset
+1. Look at what location to register the train to (intuition leads me to 3)
 
 ## Setup
 1. Pull repo
